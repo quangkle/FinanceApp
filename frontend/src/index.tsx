@@ -2,10 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { searchCompanies } from "./Apis/StockApi";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+console.log(searchCompanies("tsla"));
+
 root.render(
   <React.StrictMode>
     <App />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import CardList from "./Components/CardList/CardList";
 import Search from "./Components/Search/Search";
 import { CompanySearch } from "./interfaces";
@@ -9,12 +9,14 @@ function App() {
   const [searchResults, setSearchResults] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     console.log(e);
   };
 
-  const onClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onSearchSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    
     const result = await searchCompanies(search);
     if(typeof result === "string") {
       setServerError(result);
@@ -25,11 +27,16 @@ function App() {
     console.log(searchResults);
   };
 
+  const onPortfolioCreate = (e: SyntheticEvent) => {
+    e.preventDefault();
+    console.log(e);
+  }
+
   return (
     <div className='App'>
-      <Search search={search} onClick={onClick} handleChange={handleChange}/>
+      <Search search={search} onSearchSubmit={onSearchSubmit} handleSearchChange={handleSearchChange}/>
       {serverError && <p>{serverError}</p>}
-      <CardList searchResults={searchResults} />
+      <CardList searchResults={searchResults} onPortfolioCreate={onPortfolioCreate} />
     </div>
   );
 }

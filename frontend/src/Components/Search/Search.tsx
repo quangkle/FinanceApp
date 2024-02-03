@@ -1,17 +1,16 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, SyntheticEvent } from "react";
 
 type Props = {
   search: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSearchSubmit: (e: SyntheticEvent) => void;
+  handleSearchChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Search = ({ search, onClick, handleChange }: Props) => {
+const Search = ({ search, onSearchSubmit, handleSearchChange }: Props) => {
   return (
-    <div>
-      <input value={search} onChange={handleChange} />
-      <button onClick={onClick} />
-    </div>
+    <form onSubmit={onSearchSubmit}>
+      <input value={search} onChange={handleSearchChange} />
+    </form>
   );
 };
 

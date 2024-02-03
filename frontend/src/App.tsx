@@ -6,7 +6,7 @@ import { searchCompanies } from "./Apis/StockApi";
 
 function App() {
   const [search, setSearch] = useState("");
-  const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
+  const [searchResults, setSearchResults] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,17 +19,17 @@ function App() {
     if(typeof result === "string") {
       setServerError(result);
     } else if (Array.isArray(result.data)) {
-      setSearchResult(result.data);
+      setSearchResults(result.data);
     }
 
-    console.log(searchResult);
+    console.log(searchResults);
   };
 
   return (
     <div className='App'>
       <Search search={search} onClick={onClick} handleChange={handleChange}/>
       {serverError && <p>{serverError}</p>}
-      <CardList />
+      <CardList searchResults={searchResults} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { SyntheticEvent } from "react";
 interface Props {
   searchResults: CompanySearch[];
   onPortfolioCreate: (e: SyntheticEvent) => void;
+  onPortfolioDelete: (e: SyntheticEvent) => void;
 }
 
 const CardList = ({ searchResults, onPortfolioCreate }: Props) => {

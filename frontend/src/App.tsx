@@ -33,7 +33,15 @@ function App() {
     e.preventDefault();
 
     const updatedPortfolioValues = [...portfolioValues, e.target[0].value];
+    setPortfolioValues(updatedPortfolioValues);
+  };
 
+  const onPortfolioDelete = (e: any) => {
+    e.preventDefault();
+
+    const updatedPortfolioValues = portfolioValues.filter((item) => {
+        return item !== e.target[0].value;
+    });
     setPortfolioValues(updatedPortfolioValues);
   };
 
@@ -45,12 +53,13 @@ function App() {
         handleSearchChange={handleSearchChange}
       />
 
-      <ListPortfolio portfolioValues={portfolioValues} />
+      <ListPortfolio portfolioValues={portfolioValues} onPortfolioDelete={onPortfolioDelete} />
 
       {serverError && <h1>{serverError}</h1>}
       <CardList
         searchResults={searchResults}
         onPortfolioCreate={onPortfolioCreate}
+        onPortfolioDelete={onPortfolioDelete}
       />
     </div>
   );

@@ -15,11 +15,18 @@ const CardList = ({ searchResults, onPortfolioCreate }: Props) => {
       {searchResults.length > 0 ? (
         <div>
           {searchResults.map((result) => (
-            <Card id={result.symbol} key={uuidv4()} searchResult={result} onPortfolioCreate={onPortfolioCreate} symbol={result.symbol} />
+            <Card
+              id={result.symbol}
+              key={uuidv4()}
+              searchResult={result}
+              onPortfolioCreate={onPortfolioCreate}
+            />
           ))}
         </div>
       ) : (
-        <h1>No Results</h1>
+        <p className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+          No results!
+        </p>
       )}
     </>
   );

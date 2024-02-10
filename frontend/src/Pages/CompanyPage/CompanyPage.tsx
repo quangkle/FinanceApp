@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { CompanyProfile } from "../../interfaces";
 import { getCompanyProfile } from "../../Apis/StockApi";
+import SideBar from "../../Components/SideBar/SideBar";
+import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
 
 type Props = {};
 
@@ -21,7 +23,10 @@ const CompanyPage = (props: Props) => {
   return (
     <>
       {company ? (
-        <div>{company?.companyName}</div>
+        <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
+          <SideBar />
+          <CompanyDashboard />
+        </div>
       ) : (
         <div>Company not found!</div>
       )}

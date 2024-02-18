@@ -3,6 +3,7 @@ import { CompanyCashFlow } from "../../interfaces";
 import { useOutletContext } from "react-router";
 import { getCashflowStatement } from "../../Apis/StockApi";
 import Table from "../Table/Table";
+import Spinner from "../Spinner/Spinner";
 
 type Props = {};
 
@@ -60,7 +61,7 @@ const CashflowStatement = (props: Props) => {
     {cashflowStatement ? (
         <Table configs={configs} data={cashflowStatement} />
     ) : (
-        <>No results!</>
+        <Spinner />
     )}
   </>;
 };

@@ -5,6 +5,7 @@ import { getCompanyProfile } from "../../Apis/StockApi";
 import SideBar from "../../Components/SideBar/SideBar";
 import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
 import Tile from "../../Components/Tile/Tile";
+import Spinner from "../../Components/Spinner/Spinner";
 
 type Props = {};
 
@@ -38,7 +39,7 @@ const CompanyPage = (props: Props) => {
           </CompanyDashboard>
         </div>
       ) : (
-        <div>Company not found!</div>
+        <Spinner />
       )}
     </>
   );

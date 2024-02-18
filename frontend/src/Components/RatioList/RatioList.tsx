@@ -1,14 +1,9 @@
 import React from "react";
-import { TestDataCompany } from "../Table/testData";
 
 type Props = {
     configs: any;
     data: any;
 };
-
-const data = TestDataCompany[0];
-
-type Company = typeof data;
 
 const RatioList = ({configs, data}: Props) => {
   const renderedRows = configs.map((row: any) => (

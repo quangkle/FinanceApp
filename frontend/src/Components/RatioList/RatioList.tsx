@@ -2,7 +2,7 @@ import React from "react";
 import { TestDataCompany } from "../Table/testData";
 
 type Props = {
-    config: any;
+    configs: any;
     data: any;
 };
 
@@ -10,8 +10,8 @@ const data = TestDataCompany[0];
 
 type Company = typeof data;
 
-const RatioList = ({config, data}: Props) => {
-  const renderedRows = config.map((row: any) => (
+const RatioList = ({configs, data}: Props) => {
+  const renderedRows = configs.map((row: any) => (
     <li className="py-3 sm:py-4">
       <div className="flex items-center space-x-4">
         <div className="flex-1 min-w-0">

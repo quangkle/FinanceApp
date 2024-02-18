@@ -22,8 +22,8 @@ const DesignPage = (props: Props) => {
         This is Financial app's design page. This is where we will house various
         design aspects of the app
       </h2>
-      <RatioList data={testIncomeStatementData} config={tableConfig}/>
-      <Table />
+      <RatioList data={testIncomeStatementData} configs={tableConfig}/>
+      <Table data={testIncomeStatementData} configs={tableConfig}/>
     </>
   );
 };

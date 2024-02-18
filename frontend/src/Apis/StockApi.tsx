@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CompanyKeyMetrics, CompanyProfile, CompanySearch } from "../interfaces";
+import { CompanyIncomeStatement, CompanyKeyMetrics, CompanyProfile, CompanySearch } from "../interfaces";
 
 interface SearchResponse {
     data: CompanySearch[];
@@ -38,6 +38,21 @@ export const getCompanyProfile = async (query: string) => {
 export const getKeyMetrics = async (query: string) => {
     try {
         const data = await axios.get<CompanyKeyMetrics[]>(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${query}?apikey=${process.env.REACT_APP_FINANCIAL_API_KEY}`)
+        return data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("ERROR MESSAGE: ", error.message);
+            return null;
+        } else {
+            console.error("UNEXPECTED ERROR: ", error);
+            return null;
+        }
+    }
+}
+
+export const getIncomeStatement = async (query: string) => {
+    try {
+        const data = await axios.get<CompanyIncomeStatement[]>(`https://financialmodelingprep.com/api/v3/income-statement/${query}?limit=40&apikey=${process.env.REACT_APP_FINANCIAL_API_KEY}`)
         return data;
     } catch (error) {
         if (axios.isAxiosError(error)) {

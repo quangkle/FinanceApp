@@ -6,7 +6,7 @@ import RatioList from "../RatioList/RatioList";
 
 type Props = {};
 
-const tableConfig = [
+const tableConfigs = [
   {
     label: "Market Cap",
     render: (company: CompanyKeyMetrics) => company.marketCapTTM,
@@ -83,7 +83,7 @@ const CompanyProfile = (props: Props) => {
     <>
       {companyData ? (
         <>
-          <RatioList data={companyData} config={tableConfig} />
+          <RatioList data={companyData} configs={tableConfigs} />
         </>
       ) : (
         <>Loading!</>

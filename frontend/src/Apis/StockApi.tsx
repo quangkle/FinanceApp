@@ -7,6 +7,7 @@ import {
   CompanyKeyMetrics,
   CompanyProfile,
   CompanySearch,
+  CompanyTenK,
 } from "../interfaces";
 
 interface SearchResponse {
@@ -152,3 +153,20 @@ export const getCompData = async (query: string) => {
     }
   }
 };
+
+export const getTenK = async (query: string) => {
+    try {
+      const data = await axios.get<CompanyTenK[]>(
+        `https://financialmodelingprep.com/api/v3/sec_filings/${query}?type=10-k&page=0&apikey=${process.env.REACT_APP_FINANCIAL_API_KEY}`
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("ERROR MESSAGE: ", error.message);
+        return null;
+      } else {
+        console.error("UNEXPECTED ERROR: ", error);
+        return null;
+      }
+    }
+  };

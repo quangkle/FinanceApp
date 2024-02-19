@@ -8,6 +8,7 @@ import Tile from "../../Components/Tile/Tile";
 import Spinner from "../../Components/Spinner/Spinner";
 import CompFinder from "../../Components/CompFinder/CompFinder";
 import TenKFinder from "../../Components/TenKFinder/TenKFinder";
+import { formatLargeMonetaryNumber } from "../../Helpers/NumberFormatting";
 
 type Props = {};
 
@@ -31,9 +32,9 @@ const CompanyPage = (props: Props) => {
           <SideBar />
           <CompanyDashboard ticker={ticker!}>
             <Tile title="Company Name" subTitle={company.companyName} />
-            <Tile title="Price" subTitle={company.price.toString()} />
+            <Tile title="Price" subTitle={formatLargeMonetaryNumber(company.price)} />
             <Tile title="Sector" subTitle={company.sector || "N/A"} />
-            <Tile title="DCF" subTitle={company.dcf.toString()} />
+            <Tile title="DCF" subTitle={formatLargeMonetaryNumber(company.dcf)} />
             <CompFinder ticker={company.symbol} />
             <TenKFinder ticker={company.symbol} />
 

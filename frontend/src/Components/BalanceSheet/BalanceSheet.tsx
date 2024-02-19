@@ -73,7 +73,7 @@ const BalanceSheet = (props: Props) => {
     };
 
     fetchBalanceSheet();
-  }, []);
+  }, [ticker]);
 
   return (
     <>

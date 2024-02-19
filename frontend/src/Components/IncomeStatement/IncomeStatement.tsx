@@ -76,7 +76,7 @@ const IncomeStatement = (props: Props) => {
     };
 
     incomeStatementFetch();
-  }, []);
+  }, [ticker]);
 
   return (
     <>

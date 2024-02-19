@@ -56,7 +56,7 @@ const CashflowStatement = (props: Props) => {
     };
 
     fetchCashflowStatement();
-  }, []);
+  }, [ticker]);
   return <>
     {cashflowStatement ? (
         <Table configs={configs} data={cashflowStatement} />

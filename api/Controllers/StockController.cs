@@ -20,7 +20,7 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            IList<StockDto> stockDtos = _dbContext.Stocks.Select(s => s.ToStockDto()).ToList();
+            IList<StockResponse> stockDtos = _dbContext.Stocks.Select(s => s.ToStockResponse()).ToList();
 
             return Ok(stockDtos);
         }
@@ -35,7 +35,17 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return Ok(stock.ToStockDto());
+            return Ok(stock.ToStockResponse());
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStockRequest createStockRequest)
+        {
+            Stock newStock = createStockRequest.ToStock();
+            _dbContext.Stocks.Add(newStock);
+            _dbContext.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById), new { id = newStock.Id }, newStock.ToStockResponse());
         }
     }
 }

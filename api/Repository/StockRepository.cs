@@ -45,6 +45,11 @@ namespace api.Repository
             return await _dbContext.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<bool> StockExists(int id)
+        {
+            return await _dbContext.Stocks.AnyAsync(s => s.Id == id);
+        }
+
         public async Task<Stock?> UpdateAsync(int id, Stock stock)
         {
             var existingStock = await _dbContext.Stocks.FirstOrDefaultAsync(x => x.Id == id);

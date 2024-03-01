@@ -1,4 +1,3 @@
-using api.Data;
 using api.Dtos.Comment;
 using api.Interfaces;
 using api.Mappers;
@@ -12,10 +11,12 @@ namespace api.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommmentRepository _commentRepository;
+        private readonly IStockRepository _stockRepository;
 
-        public CommentController(ICommmentRepository commentRepository)
+        public CommentController(ICommmentRepository commentRepository, IStockRepository stockRepository)
         {
             _commentRepository = commentRepository;
+            _stockRepository = stockRepository;
         }
 
         [HttpGet]
@@ -44,6 +45,11 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCommentRequest createCommentRequest)
         {
+            if (!await _stockRepository.StockExists(createCommentRequest.StockId ?? 0))
+            {
+                return BadRequest("Stock not found");
+            }
+
             Comment comment = createCommentRequest.ToComment();
             var newComment = await _commentRepository.CreateAsync(comment);
 
@@ -63,7 +69,7 @@ namespace api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id) 
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Comment? comment = await _commentRepository.DeleteAsync(id);
 

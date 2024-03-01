@@ -16,6 +16,8 @@ namespace api.Repository
 
         public async Task<Comment> CreateAsync(Comment comment)
         {
+            comment.CreatedOn = DateTime.Now;
+
             await _dbContext.Comments.AddAsync(comment);
             await _dbContext.SaveChangesAsync();
             return comment;

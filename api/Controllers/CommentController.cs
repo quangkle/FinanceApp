@@ -29,7 +29,7 @@ namespace api.Controllers
             return Ok(commentsResponse);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             Comment? comment = await _commentRepository.GetByIdAsync(id);
@@ -56,7 +56,7 @@ namespace api.Controllers
             return Ok(newComment.ToCommentResponse());
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateCommentRequest createCommentRequest)
         {
             var updatedComment = await _commentRepository.UpdateAsync(id, createCommentRequest.ToComment());
@@ -68,7 +68,7 @@ namespace api.Controllers
             return Ok(updatedComment.ToCommentResponse());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             Comment? comment = await _commentRepository.DeleteAsync(id);

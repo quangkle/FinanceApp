@@ -48,6 +48,22 @@ namespace api.Repository
                 stocks = stocks.Where(s => s.Symbol.ToLower().Contains(stockQueryObject.Symbol.ToLower()));
             }
 
+            if (!string.IsNullOrWhiteSpace(stockQueryObject.SortBy)) {
+                switch (stockQueryObject.SortBy.ToLower())
+                {
+                    case "symbol":
+                        stocks = stockQueryObject.IsDescending ? stocks.OrderByDescending(s => s.Symbol) : stocks.OrderBy(s => s.Symbol);
+                        break;
+
+                    case "company":
+                        stocks = stockQueryObject.IsDescending ? stocks.OrderByDescending(s => s.CompanyName) : stocks.OrderBy(s => s.CompanyName);
+                        break;
+                }
+            }
+
+            var skipNumber = (stockQueryObject.PageNumber - 1) * stockQueryObject.PageSize;
+            stocks = stocks.Skip(skipNumber).Take(stockQueryObject.PageSize);
+
             return await stocks.ToListAsync();
         }
 

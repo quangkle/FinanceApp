@@ -3,6 +3,8 @@ using api.Interfaces;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace api.Controllers
 {
@@ -11,11 +13,13 @@ namespace api.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _signInManager = signInManager;
         }
 
         [HttpPost("register")]
@@ -41,7 +45,7 @@ namespace api.Controllers
                     if (roleResult.Succeeded)
                     {
                         return Ok(
-                            new RegisterResponse
+                            new UserLoginReponse
                             {
                                 Username = appUser.UserName,
                                 Email = appUser.Email,
@@ -63,6 +67,38 @@ namespace api.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginRequest.Username);
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid username");
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized("Username not found or password does not match");
+            }
+
+            return Ok(
+                new UserLoginReponse
+                {
+                    Username = user.UserName ?? string.Empty,
+                    Email = user.Email ?? string.Empty,
+                    Token = _tokenService.CreateToken(user),
+                }
+            );
         }
     }
 }

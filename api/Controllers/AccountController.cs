@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace api.Controllers
 {
     [Route("api/account")]
+    [ApiController]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -70,7 +71,7 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)
             {

@@ -40,15 +40,18 @@ namespace api.Repository
         {
             var stocks = _dbContext.Stocks.Include(c => c.Comments).AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(stockQueryObject.CompanyName)) {
+            if (!string.IsNullOrWhiteSpace(stockQueryObject.CompanyName))
+            {
                 stocks = stocks.Where(s => s.CompanyName.ToLower().Contains(stockQueryObject.CompanyName.ToLower()));
             }
 
-            if (!string.IsNullOrWhiteSpace(stockQueryObject.Symbol)) {
+            if (!string.IsNullOrWhiteSpace(stockQueryObject.Symbol))
+            {
                 stocks = stocks.Where(s => s.Symbol.ToLower().Contains(stockQueryObject.Symbol.ToLower()));
             }
 
-            if (!string.IsNullOrWhiteSpace(stockQueryObject.SortBy)) {
+            if (!string.IsNullOrWhiteSpace(stockQueryObject.SortBy))
+            {
                 switch (stockQueryObject.SortBy.ToLower())
                 {
                     case "symbol":
@@ -70,6 +73,11 @@ namespace api.Repository
         public async Task<Stock?> GetByIdAsync(int id)
         {
             return await _dbContext.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<Stock?> GetBySymbolAsync(string symbol)
+        {
+            return await _dbContext.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(s => s.Symbol == symbol);
         }
 
         public async Task<bool> StockExists(int id)

@@ -1,5 +1,4 @@
 using api.Dtos.Comment;
-using api.Dtos.Stock;
 using api.Models;
 
 namespace api.Mappers
@@ -14,6 +13,7 @@ namespace api.Mappers
                 Content = comment.Content,
                 Title = comment.Title,
                 CreatedOn = comment.CreatedOn,
+                CreatedBy = comment.AppUser?.UserName ?? string.Empty,
                 StockId = comment.StockId
             };
         }

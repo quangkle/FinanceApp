@@ -1,22 +1,27 @@
 using api.Dtos.Comment;
+using api.Extensions;
 using api.Interfaces;
 using api.Mappers;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Route("api/comment")]
     [ApiController]
+    [Route("api/comment")]
     public class CommentController : ControllerBase
     {
         private readonly ICommmentRepository _commentRepository;
         private readonly IStockRepository _stockRepository;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CommentController(ICommmentRepository commentRepository, IStockRepository stockRepository)
+        public CommentController(ICommmentRepository commentRepository, IStockRepository stockRepository, UserManager<AppUser> userManager)
         {
             _commentRepository = commentRepository;
             _stockRepository = stockRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -42,6 +47,7 @@ namespace api.Controllers
             return Ok(comment.ToCommentResponse());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCommentRequest createCommentRequest)
         {
@@ -50,12 +56,23 @@ namespace api.Controllers
                 return BadRequest("Stock not found");
             }
 
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+
+            if (appUser == null)
+            {
+                return Unauthorized();
+            }
+
+
             Comment comment = createCommentRequest.ToComment();
+            comment.AppUserId = appUser.Id;
             var newComment = await _commentRepository.CreateAsync(comment);
 
             return Ok(newComment.ToCommentResponse());
         }
 
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CreateCommentRequest createCommentRequest)
         {
@@ -68,6 +85,7 @@ namespace api.Controllers
             return Ok(updatedComment.ToCommentResponse());
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

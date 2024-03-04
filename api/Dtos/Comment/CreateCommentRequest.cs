@@ -14,6 +14,14 @@ namespace api.Dtos.Comment
         [MaxLength(280, ErrorMessage = "Content cannot be over 280 characters")]
         public string Content { get; set; } = string.Empty;
 
-        public int? StockId { get; set; }
+        public string Symbol { get; set; } = string.Empty;
+
+        public string FormattedSymbol
+        {
+            get
+            {
+                return Symbol.ToUpper();
+            }
+        }
     }
 }

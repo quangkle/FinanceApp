@@ -18,13 +18,13 @@ namespace api.Mappers
             };
         }
 
-        public static Comment ToComment(this CreateCommentRequest createCommentRequest)
+        public static Comment ToComment(this CreateCommentRequest createCommentRequest, int stockId = 0)
         {
             return new Comment
             {
                 Content = createCommentRequest.Content,
                 Title = createCommentRequest.Title,
-                StockId = createCommentRequest.StockId
+                StockId = stockId
             };
         }
     }

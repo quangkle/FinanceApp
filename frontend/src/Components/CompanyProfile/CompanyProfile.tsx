@@ -5,6 +5,7 @@ import { getKeyMetrics } from "../../Apis/StockApi";
 import RatioList from "../RatioList/RatioList";
 import Spinner from "../Spinner/Spinner";
 import { formatLargeNonMonetaryNumber, formatRatio } from "../../Helpers/NumberFormatting";
+import StockComment from "../StockComment/StockComment";
 
 type Props = {};
 
@@ -94,6 +95,7 @@ const CompanyProfile = (props: Props) => {
       {companyData ? (
         <>
           <RatioList data={companyData} configs={tableConfigs} />
+          <StockComment stockSymbol={ticker} />
         </>
       ) : (
         <Spinner />
